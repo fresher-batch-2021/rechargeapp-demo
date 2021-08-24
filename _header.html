@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">MobileRechargeApp</a>
+
+    <ul class="navbar-nav mt-2 mt-lg-0">
+        <li class="nav-item active">
+            <a class="nav-link" href="plans.html">Plans<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item" data-loggedin="true">
+            <a class="nav-link" href="myrecharges.html">My Recharges</a>
+        </li>
+
+        <li class="nav-item" data-loggedin="true" data-roles="ADMIN">
+            <a class="nav-link" href="allrecharges.html">All Recharges</a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <li class="nav-item" data-loggedin="false">
+            <a class="nav-link" href="login.html">Login</a>
+        </li>
+        <li class="nav-item" data-loggedin="false">
+            <a class="nav-link" href="register.html">Register</a>
+        </li>
+        <li class="nav-item" data-loggedin="true">
+            <a class="nav-link" href="#" id="profile"> Welcome {{user.email}}</a>
+        </li>
+        <li class="nav-item" data-loggedin="true">
+            <a class="nav-link" href="#" (click)="logout()">Logout </a>
+        </li>
+    </ul>
+
+</nav>
+
+<script>
+    //1. Get Loggedin user details
+    let user = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+    console.log("Header", user);
+
+    if (user != null) {
+        //if user is logged in, 
+        $(".nav-item[data-loggedin='true']").show();
+        $(".nav-item[data-loggedin='false']").hide();
+        $("#profile").html("Welcome " + user.email + "!!!");
+        if (user.role == "USER") {
+            $(".nav-item[data-roles='ADMIN']").hide();
+        }
+
+    } else {
+        //if user yet to logged in, 
+        $(".nav-item[data-loggedin='false']").show();
+        $(".nav-item[data-loggedin='true']").hide();
+    }
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = "login.html";
+    }
+</script>
